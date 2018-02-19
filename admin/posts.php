@@ -41,10 +41,7 @@
                                 default:
                                     include 'includes/view_all_posts.php';
                                 break;
-                            }
-
-                            //https://www.udemy.com/php-for-complete-beginners-includes-msql-object-oriented/learn/v4/t/lecture/2509338?start=0
-                            // 4:06 - copy down add post form
+                            }                            
                         ?>                            
                         </tbody>
                        </table>
