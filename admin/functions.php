@@ -1,11 +1,11 @@
 <?php
-function render_form() {
-    global $connection;
+    function render_form() {
+        global $connection;
 
         if (isset($_GET['edit'])) {
             $the_cat_to_edit_id = $_GET['edit'];                                        
 
-            $queryCats = "SELECT * FROM categories WHERE cat_id = $the_cat_to_edit_id";
+            $queryCats = "SELECT * FROM categories  cat_id = $the_cat_to_edit_id";
             $editCatResults = mysqli_query($connection, $queryCats);
 
                 while( $rows = mysqli_fetch_assoc($editCatResults) ) {
@@ -95,16 +95,120 @@ function render_form() {
             $query = "DELETE FROM categories ";
             $query .= "WHERE cat_id = {$the_cat_id}";
 
-            $deleteQuery = mysqli_query($connection, $query);
+            $deleteCatQuery = mysqli_query($connection, $query);
 
-            if (!$deleteQuery) {
+            if (!$deleteCatQuery) {
                 die('query failed ' . mysqli_error($connection));
             } else {
                 header('Location: categories.php');                                                
             }
         } 
     }
-    
 
+    function delete_post() {
+        global $connection;
+
+        if (isset($_GET['delete'])) {
+            $the_post_id = $_GET['delete'];
+
+            $query = "DELETE FROM posts ";
+            $query .= "WHERE post_id = {$the_post_id}";
+
+            $deletePostQuery = mysqli_query($connection, $query);
+
+            if (!$deletePostQuery) {
+                die('query failed ' . mysqli_error($connection));
+            } else {
+                header('Location: posts.php');                                                
+            }
+        }
+    }
+
+    function delete_comment() {
+        global $connection;
     
+        if (isset($_GET['delete'])) {
+            $the_comment_id = $_GET['delete'];
+
+            $query = "DELETE FROM comments ";
+            $query .= "WHERE comment_id = {$the_comment_id}";
+
+            $deleteCommentQuery = mysqli_query($connection, $query);
+
+            if (!$deleteCommentQuery) {
+                die('query failed ' . mysqli_error($connection));
+            } else {
+                header('Location: comments.php');                                                
+            }
+        }
+    }
+
+    function approve_comment() {
+        global $connection;
+    
+        if (isset($_GET['approve'])) {
+            $the_comment_id = $_GET['approve'];
+
+            $query =  "UPDATE comments SET ";
+            $query .= "comment_status = 'approved' ";                                        
+            $query .= "WHERE comment_id = {$the_comment_id}";     
+
+            $deleteCommentQuery = mysqli_query($connection, $query);
+
+            if (!$deleteCommentQuery) {
+                die('query failed ' . mysqli_error($connection));
+            } else {
+                header('Location: comments.php');                                                
+            }
+        }
+    }
+
+    function unapprove_comment() {
+        global $connection;
+    
+        if (isset($_GET['unapprove'])) {
+            $the_comment_id = $_GET['unapprove'];
+
+            $query =  "UPDATE comments SET ";
+            $query .= "comment_status = 'unapproved' ";                                        
+            $query .= "WHERE comment_id = {$the_comment_id}";     
+
+            $deleteCommentQuery = mysqli_query($connection, $query);
+
+            if (!$deleteCommentQuery) {
+                die('query failed ' . mysqli_error($connection));
+            } else {
+                header('Location: comments.php');                                                
+            }
+        }
+    }
+    
+    function delete_User() {
+        global $connection;
+    
+        if (isset($_GET['delete_user'])) {
+            $the_user_id = $_GET['delete_user'];
+
+            $query = "DELETE FROM users ";
+            $query .= "WHERE user_id = {$the_user_id}";
+
+            $deleteUserQuery = mysqli_query($connection, $query);
+
+            if (!$deleteUserQuery) {
+                die('query failed ' . mysqli_error($connection));
+            } else {
+                header('Location: users.php');                                                
+            }
+        }
+    }
+
+    function check_query($query) {
+        global $connection;
+
+        $result = mysqli_query($connection, $query);
+
+        if(!$result) {
+            die('query failed' . mysqli_error($connection));
+        }
+    }    
 ?>

@@ -18,6 +18,8 @@
 <?php
     global $connection;
 
+    delete_post();
+    
     $queryPosts = "SELECT * FROM posts";
     $postsResults = mysqli_query($connection, $queryPosts);
 
@@ -33,14 +35,29 @@
 
         echo '<tr>';
         echo    '<td>' . $postId . '</td>';
-        echo    '<td>' . $postCatId . '</td>';
-        echo    '<td>' . $postTitle . '</td>';
+
+        $queryCats = "SELECT * FROM categories WHERE cat_id = $postCatId";
+        $editCatResults = mysqli_query($connection, $queryCats);
+
+        while( $rows = mysqli_fetch_assoc($editCatResults) ) {            
+            $catTitle = isset($rows['cat_title']) ? $rows['cat_title'] : '';
+            
+            echo '<td>' . $catTitle . '</td>';
+        }
+
+        echo    '<td><a href="../post.php?id=' . $postId . '">' . $postTitle . '</a></td>';
         echo    '<td>' . $postAuthor . '</td>';
         echo    '<td>' . $postDate . '</td>';
         echo    '<td>' . $postTags . '</td>';
+
+        $queryComentCount = "SELECT count(*) FROM comments WHERE comment_post_id = $postId";
+        $comentCountResults = mysqli_query($connection, $queryComentCount);
+
+        $rows = mysqli_fetch_assoc($comentCountResults);
+        $postCommentCount = $rows['count(*)'];
         echo    '<td>' . $postCommentCount . '</td>';
         echo    '<td>' . $postStatus . '</td>';
-        echo    '<td><a href="posts.php?source=edit_posts&id=' . $postId . '">Edit</a></td>';
+        echo    '<td><a href="posts.php?source=edit_post&id=' . $postId . '">Edit</a></td>';
         echo    '<td><a href="posts.php?delete=' . $postId . '">Delete</a></td>';
         echo '</tr>';                             
     }

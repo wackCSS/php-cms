@@ -28,9 +28,7 @@
     $splitResults = round($rowCount / 2);
     $count = 1;
     $leftArray = [];
-    $rightArray = [];
-
-    //var_dump($splitResults);
+    $rightArray = [];    
 
     function buildList($arr) {
         $index = 0;
@@ -42,16 +40,16 @@
 
                 $html .= '<div class="col-lg-6">';
                 $html .= '<ul class="list-unstyled">';
-                $html .= '<li><a href="#">' . $value . '</a>';
+                $html .= '<li><a href="categories.php?cat_id=' . $key . '">' . $value . '</a>';
                 $html .= '</li>';
             
             } else if ($index == $length - 1) {
-                $html .= '<li><a href="#">' . $value . '</a>';
+                $html .= '<li><a href="categories.php?cat_id=' . $key . '">' . $value . '</a>';
                 $html .= '</li>';
                 $html .= '</ul>';
                 $html .= '</div>';
             } else {
-                $html .= '<li><a href="#">' . $value . '</a></li>';
+                $html .= '<li><a href="categories.php?cat_id=' . $key . '">' . $value . '</a></li>';
             }
             $index++;
         }

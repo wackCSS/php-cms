@@ -1,7 +1,7 @@
 <?php
-    if (isset($_GET['id'])) {
-        $post_id = $_GET['id'];
-    }    
+    if(isset($_GET['cat_id'])) {
+        $the_cat_id = $_GET['cat_id'];
+    }
 ?>
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/nav.php'; ?>  
@@ -21,8 +21,11 @@
                 
                 <?php 
                     global $connection;
-                    $queryPosts = "SELECT * FROM posts WHERE post_id = $post_id";
+                    $queryPosts = "SELECT * FROM posts WHERE post_category_id = $the_cat_id AND post_status = 'published'";
                     $postsResult = mysqli_query($connection, $queryPosts);
+                    $count = mysqli_num_rows($postsResult);
+
+                    if ($count > 0) {
 
                     while( $row = mysqli_fetch_assoc($postsResult) ) {
                         $postId = $row['post_id'];
@@ -31,14 +34,14 @@
                         $postAuthor = $row['post_author'];
                         $postDate = $row['post_date'];
                         $postImg = $row['post_img'];
-                        $postContent = $row['post_content'];
+                        $postContent = substr($row['post_content'],0,100);
                         $postTags = $row['post_tags'];
                         $postCommentCount = $row['post_comment_count'];
                         $postStatus = $row['post_status'];
                     ?>
 
                     <h2>
-                        <?php echo $postTitle ?>
+                        <a href="post.php?id=<?php echo $postId ?>"><?php echo $postTitle ?></a>
                     </h2>
                     <p class="lead">
                         by <a href="index.php"><?php echo $postAuthor ?></a>
@@ -48,11 +51,16 @@
                     <img class="img-responsive" src="images/<?php echo $postImg ?>" alt="image">
                     <hr>
                     <p><?php echo $postContent ?></p>
-                    <hr>
-                <?php }?>
-                
-                <?php include 'includes/comments.php' ?>        
+                    <a class="btn btn-primary" href="posts/<?php echo $postId ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
+                    <hr>
+
+                <?php }                    
+                    } else {
+                        echo 'No posts found';
+                    }
+                ?>
+                
                 <!-- Pager -->
                 <ul class="pager">
                     <li class="previous">

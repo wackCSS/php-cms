@@ -19,7 +19,7 @@
                     }
 
                     global $connection;
-                    $queryPostTags = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' ";
+                    $queryPostTags = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' AND post_status = 'published'";
                     $searchResult = mysqli_query($connection, $queryPostTags);
 
                     if(!$searchResult){
